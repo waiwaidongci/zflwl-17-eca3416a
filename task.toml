@@ -1,0 +1,27 @@
+schema_version = "1.3"
+
+[task]
+name = "local/congruent-coupling-inverse"
+description = "Recover a canonical symmetric coupling matrix from complete pair and triple spectral restrictions, remove a diagonal sign gauge, and reverse a known finite-field congruence basis change."
+authors = [{ name = "yuenlai" }]
+keywords = ["mathematics", "inverse-problem", "finite-field", "principal-restriction", "congruence"]
+
+[agent]
+timeout_sec = 3600
+
+[environment]
+build_timeout_sec = 600
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
+allow_internet = true
+
+[verifier]
+timeout_sec = 180
+
+[metadata]
+difficulty = "expert"
+category = "mathematics"
+tags = ["spectral-inverse", "sign-gauge", "finite-field-congruence", "canonical-matrix"]
+expert_time_estimate = "55m"

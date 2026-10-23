@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "weight_policy": {
+    "version": 1,
+    "basis": "business_priority",
+    "core_min_share": 0.5
+  },
+  "gate_tests": [
+    "test_outputs.py::test_inv_01_recovers_canonical_coupling_matrix"
+  ],
+  "tests": {
+    "test_outputs.py::test_inv_02_recovers_signed_triple_orientation": {
+      "weight": 0.12,
+      "priority": "core",
+      "rationale": "三点谱记录决定非对角元符号，漏掉符号会把结构正确但方向错误的矩阵交给复核。"
+    },
+    "test_outputs.py::test_inv_03_normalizes_row_zero_gauge": {
+      "weight": 0.12,
+      "priority": "core",
+      "rationale": "第一行正代表固定了唯一符号规范，规范化失败会使同一证据产生多个合法输出。"
+    },
+    "test_outputs.py::test_inv_04_reverses_congruence_basis_change": {
+      "weight": 0.11,
+      "priority": "core",
+      "rationale": "必须把观测坐标反解到原始坐标，直接把观测矩阵交回会让后续标定使用错误基底。"
+    },
+    "test_outputs.py::test_inv_05_profiles_survive_full_round_trip": {
+      "weight": 0.11,
+      "priority": "core",
+      "rationale": "完整谱回代证明结果同时满足全部记录，而不是只拟合一个便于计算的局部子集。"
+    },
+    "test_outputs.py::test_range_02_maximum_probe_count_finishes_before_deadline": {
+      "weight": 0.1,
+      "priority": "core",
+      "rationale": "公开最大账必须在现场时限内完成，否则规范反演无法用于当晚交接决策。"
+    },
+    "test_outputs.py::test_range_01_minimum_probe_count_is_accepted": {
+      "weight": 0.025,
+      "priority": "boundary",
+      "rationale": "最小合法探针数仍应正常产出，避免范围判断把可执行的短账误挡在门外。"
+    },
+    "test_outputs.py::test_range_03_probe_count_just_outside_bounds_is_refused": {
+      "weight": 0.025,
+      "priority": "boundary",
+      "rationale": "上下界外各取最小越界值，确保公开范围不是只验证了一侧的宽松判断。"
+    },
+    "test_outputs.py::test_schema_01_top_level_and_field_are_exact": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "顶层键、版本和模域必须封闭，否则旧记录会以错误数学口径被静默接受。"
+    },
+    "test_outputs.py::test_schema_02_duplicate_top_level_key_is_refused": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "重复键会让解析器掩掉另一份字段值，交接账必须拒绝这种不确定的原始记录。"
+    },
+    "test_outputs.py::test_probe_01_identifier_count_and_uniqueness_are_checked": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "探针编号是矩阵行列与结果复制的唯一锚点，重复或格式漂移会串错现场数据。"
+    },
+    "test_outputs.py::test_matrix_01_basis_shape_and_field_values_are_checked": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "基变换必须与探针数同阶且元素位于模域内，否则后续矩阵乘积没有定义。"
+    },
+    "test_outputs.py::test_matrix_02_singular_basis_change_is_refused": {
+      "weight": 0.025,
+      "priority": "boundary",
+      "rationale": "不可逆基变换无法恢复原始坐标，继续计算只能产生没有业务意义的替代矩阵。"
+    },
+    "test_outputs.py::test_profile_01_complete_subset_set_is_required": {
+      "weight": 0.025,
+      "priority": "boundary",
+      "rationale": "缺少任一大小组的一至三条谱记录都可能留下符号自由度，不能当作完整证据。"
+    },
+    "test_outputs.py::test_profile_02_active_order_and_bounds_are_checked": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "子集下标必须严格递增且位于探针数组内，否则同一条记录可能指向不同主矩阵。"
+    },
+    "test_outputs.py::test_profile_03_spectrum_width_and_monicity_are_checked": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "谱系数宽度与首一性质决定记录是否为真实特征多项式，错误形状不能进入反演。"
+    },
+    "test_outputs.py::test_profile_04_extra_nested_key_is_refused": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "谱记录采用封闭键集合，额外字段可能携带未核验的含义并破坏跨批次一致性。"
+    },
+    "test_outputs.py::test_type_01_boolean_values_are_refused": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "布尔值会被 Python 当成整数参与模运算，必须明确挡在数值校验之前。"
+    },
+    "test_outputs.py::test_consist_01_inconsistent_triple_profile_is_refused_without_overwrite": {
+      "weight": 0.025,
+      "priority": "recovery",
+      "rationale": "不相容谱记录必须停止并保留旧看板，避免残缺反演覆盖上一班已核验结果。"
+    },
+    "test_outputs.py::test_fail_01_argument_and_parse_errors_use_public_channel": {
+      "weight": 0.025,
+      "priority": "recovery",
+      "rationale": "错误必须通过公开错误通道报告，批处理才能区分输入问题与计算完成。"
+    },
+    "test_outputs.py::test_out_01_success_shape_and_ordering_are_exact": {
+      "weight": 0.04,
+      "priority": "schema",
+      "rationale": "成功结果的封闭字段、探针顺序和矩阵单元顺序共同决定下游能否稳定复核。"
+    },
+    "test_outputs.py::test_hash_01_matrix_digest_matches_canonical_entries": {
+      "weight": 0.025,
+      "priority": "schema",
+      "rationale": "矩阵摘要必须绑定规范单元内容，否则交接时无法确认两侧拿到的是同一张表。"
+    },
+    "test_outputs.py::test_serial_01_success_is_compact_silent_and_stable": {
+      "weight": 0.025,
+      "priority": "recovery",
+      "rationale": "紧凑稳定且无终端噪声的输出可以安全用于重复批处理和字节级归档。"
+    }
+  }
+}
