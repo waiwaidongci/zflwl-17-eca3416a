@@ -264,7 +264,7 @@ def test_inv_03_normalizes_row_zero_gauge(tmp_path: Path) -> None:
 
 def test_inv_04_reverses_congruence_basis_change(tmp_path: Path) -> None:
     """题面：
-    「`A = L⁻¹ · B · (Lᵀ)⁻¹`」
+    「还原原始耦合矩阵」
     """
 
     payload, observed, expected = _fixture(18, 8104)
@@ -460,7 +460,7 @@ def test_matrix_02_singular_basis_change_is_refused(tmp_path: Path) -> None:
 
 def test_profile_01_complete_subset_set_is_required(tmp_path: Path) -> None:
     """题面：
-    「大小 1、2、3 的每个子集在 `profiles` 中对应一条记录」
+    「大小 1、2、3 的每个子集各对应一条记录，记录次序不限。」
     """
 
     payload, _, _ = _fixture(18, 8115)
@@ -476,7 +476,7 @@ def test_profile_01_complete_subset_set_is_required(tmp_path: Path) -> None:
 
 def test_profile_02_active_order_and_bounds_are_checked(tmp_path: Path) -> None:
     """题面：
-    「`active` 给出 1 到 3 个严格递增的」
+    「`active` 中的下标数量为 1 到 3，按升序排列。」
     """
 
     payload, _, _ = _fixture(18, 8116)
@@ -523,7 +523,7 @@ def test_profile_03_spectrum_width_and_monicity_are_checked(tmp_path: Path) -> N
 
 def test_profile_04_extra_nested_key_is_refused(tmp_path: Path) -> None:
     """题面：
-    「每项恰有 `active` 和 `spectrum` 两个键。」
+    「不允许其他键。」
     """
 
     payload, _, _ = _fixture(18, 8118)
@@ -633,7 +633,7 @@ def test_hash_01_matrix_digest_matches_canonical_entries(tmp_path: Path) -> None
 
 def test_serial_01_success_is_compact_silent_and_stable(tmp_path: Path) -> None:
     """题面：
-    「成功时终端不输出字符」
+    「键排序后输出」
     """
 
     payload, _, _ = _fixture(18, 8123)
