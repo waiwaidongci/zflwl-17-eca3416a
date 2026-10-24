@@ -13,6 +13,15 @@ from pathlib import Path
 
 
 ENTRY = os.environ.get("TASK_APP", "/app/register.py")
+
+SAFE_ENV = {
+    "PATH": "/usr/bin:/bin",
+    "HOME": "/tmp",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+}
 FIELD = 1019
 
 
@@ -22,11 +31,12 @@ def _run(
     *extra: str,
     timeout: int = 20,
 ) -> subprocess.CompletedProcess[str]:
-    command = [sys.executable, ENTRY, str(source), str(output), *extra]
+    command = [sys.executable, "-S", "-P", "-B", ENTRY, str(source), str(output), *extra]
     return subprocess.run(
         command,
         text=True,
         capture_output=True,
+        env=SAFE_ENV,
         timeout=timeout,
         check=False,
     )
@@ -34,9 +44,10 @@ def _run(
 
 def _run_without_paths() -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, ENTRY],
+        [sys.executable, "-S", "-P", "-B", ENTRY],
         text=True,
         capture_output=True,
+        env=SAFE_ENV,
         timeout=20,
         check=False,
     )
